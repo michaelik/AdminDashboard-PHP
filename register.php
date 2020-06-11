@@ -85,12 +85,12 @@
                   </thead>
                   <tfoot>
                     <tr>
-                      <th>Name</th>
-                      <th>Position</th>
-                      <th>Office</th>
-                      <th>Age</th>
-                      <th>Start date</th>
-                      <th>Salary</th>
+                      <th>ID</th>
+                      <th>Username</th>
+                      <th>Email</th>
+                      <th>Password</th>
+                      <th>EDIT</th>
+                      <th>DELETE</th>
                     </tr>
                   </tfoot>
                   <tbody>
@@ -112,7 +112,10 @@
                         </form>
                       </td>
                       <td>
-                      	<button type="submit" class="btn btn-danger">DELETE</button>
+                      	<form action="code.php" method="POST">
+                      	<input type="hidden" name="delete_id" value="<?php echo $row['id']; ?>">
+                      	<button type="submit" name="delete_btn" class="btn btn-danger">DELETE</button>
+                      </form>
                       </td>
                     </tr>
                     <?php
