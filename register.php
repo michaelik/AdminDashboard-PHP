@@ -1,5 +1,5 @@
 <?php 
- session_start();
+ include('security.php');
  include('inc/header.php');
  include('inc/navbar.php');
 ?>
@@ -33,6 +33,8 @@
           	<input type="Password" name="confirmpassword" class="form-control" placeholder="Re-Enter Password">	
           	</div>
 
+            <input type="hidden" name="usertype" value="admin">
+
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -58,11 +60,11 @@
             <div class="card-body">
             	<?php
                  if (isset($_SESSION['success']) && !empty($_SESSION['success'])) {
-                 	echo '<h2>'.$_SESSION['success'].'</h2>';
+                 	echo '<h2 class="text-primary">'.$_SESSION['success'].'</h2>';
                  	unset($_SESSION['success']);
                  }
                  if (isset($_SESSION['status']) && !empty($_SESSION['status'])) {
-                 	echo '<h2 class="text-info">'.$_SESSION['status'].'</h2>';
+                 	echo '<h2 class="text-danger">'.$_SESSION['status'].'</h2>';
                  	unset($_SESSION['status']);
                  }
             	?>
@@ -78,6 +80,7 @@
                       <th>ID</th>
                       <th>Username</th>
                       <th>Email</th>
+                      <th>UserType</th>
                       <th>Password</th>
                       <th>EDIT</th>
                       <th>DELETE</th>
@@ -88,6 +91,7 @@
                       <th>ID</th>
                       <th>Username</th>
                       <th>Email</th>
+                      <th>UserType</th>
                       <th>Password</th>
                       <th>EDIT</th>
                       <th>DELETE</th>
@@ -105,6 +109,7 @@
                       <td><?php echo $row['username']; ?></td>
                       <td><?php echo $row['email']; ?></td>
                       <td><?php echo $row['password']; ?></td>
+                      <td><?php echo $row['usertype']; ?></td>
                       <td>
                       	<form action="register_edit.php" method="POST">
                       	<input type="hidden" name="edit_id" value="<?php echo $row['id']; ?>">

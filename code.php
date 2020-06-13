@@ -1,5 +1,8 @@
 <?php
-session_start();
+/*
+  	ADMIN PROFILE: REGISTER/ADD ADMIN DATA----------------------------------
+*/
+include('security.php');
 $connection = mysqli_connect("localhost","root","","admin_clone") or die(mysqli_error());
 
 if(isset($_POST['registerbtn']))
@@ -8,11 +11,13 @@ if(isset($_POST['registerbtn']))
   $email = $_POST['email'];
   $password = $_POST['password'];
   $cpassword = $_POST['confirmpassword'];
-if(!empty($username) && !empty($email) && !empty($password) && !empty($cpassword))
+  $usertype = $_POST['usertype'];
+
+if(!empty($username) && !empty($email) && !empty($password) && !empty($cpassword) && !empty($usertype))
  {	
 	  if ($password === $cpassword) 
 	  {
-	  	$query = "INSERT INTO register(username, password, email) VALUES('$username', '$password', '$email')";
+	  	$query = "INSERT INTO register(username, email, password, usertype) VALUES('$username', '$email', '$password', '$usertype')";
 	  	$query_run = mysqli_query($connection, $query);
 	  	if($query_run)
 	  	{
@@ -46,8 +51,9 @@ if (isset($_POST['updatebtn']))
 	$username = $_POST['edit_username'];
 	$email = $_POST['edit_email'];
 	$password = $_POST['edit_password'];
+    $update_usertype = $_POST['update_usertype'];
 
-	$query = "UPDATE register SET username = '$username', password = '$password', email = '$email' WHERE id = '$id'";
+	$query = "UPDATE register SET username = '$username', password = '$password', email = '$email', usertype = '$update_usertype' WHERE id = '$id'";
 	$query_run = mysqli_query($connection, $query);
 	if ($query_run) 
 	{
