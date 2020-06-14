@@ -16,13 +16,13 @@ include('inc/navbar.php');
          <?php 
            $connection = mysqli_connect("localhost","root","","admin_clone") or die(mysqli_error());
            if (isset($_POST['edit_btn'])) 
-			{
-				$id = $_POST['edit_id'];
-				$query = "SELECT * FROM register WHERE id='$id'";
-				$query_run = mysqli_query($connection, $query);
-				foreach ($query_run as $row) 
-				{
-		 ?>
+      			{
+      				$id = $_POST['edit_id'];
+      				$query = "SELECT * FROM register WHERE id='$id'";
+      				$query_run = mysqli_query($connection, $query);
+      				foreach ($query_run as $row) 
+      				{
+      		 ?>
          <form action="code.php" method="POST">
          	<input type="hidden" name="edit_id" value="<?php echo $row['id'];?>">
             <div class="form-group">

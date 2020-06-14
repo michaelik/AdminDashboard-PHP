@@ -4,41 +4,40 @@
  include('inc/navbar.php');
 ?>
 
-<!-- addAdmin Modal -->
-  <div class="modal fade" id="addadminprofile" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- addAboutUs Modal -->
+  <div class="modal fade" id="addaboutus" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Add Admin Data</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Add About Us</h5>
           <button class="close" type="button" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">×</span>
           </button>
         </div>
         <form action="code.php" method="POST"> 
+
           <div class="modal-body">
           	<div class="form-group">
-          	<label> Username </label>
-          	<input type="text" name="username" class="form-control" placeholder="Enter Username">	
+          	<label> Title </label>
+          	<input type="text" name="title" class="form-control" placeholder="Enter Title">	
           	</div>
           	<div class="form-group">
-          	<label> Email </label>
-          	<input type="email" name="email" class="form-control" placeholder="Enter Email">	
+          	<label> Sub Tittle </label>
+          	<input type="text" name="subtitle" class="form-control" placeholder="Enter Sub Tittle">	
           	</div>
           	<div class="form-group">
-          	<label> Password </label>
-          	<input type="Password" name="password" class="form-control" placeholder="Enter Password">	
+          	<label> Description </label>
+          	<textarea type="text" name="description" class="form-control" placeholder="Enter Description"></textarea>	
           	</div>
           	<div class="form-group">
-          	<label> Comfirm Password </label>
-          	<input type="Password" name="confirmpassword" class="form-control" placeholder="Re-Enter Password">	
+          	<label> Links </label>
+          	<input type="text" name="links" class="form-control" placeholder="Enter Links">	
           	</div>
-
-            <input type="hidden" name="usertype" value="admin">
-
           </div>
+
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="submit" name="registerbtn" class="btn btn-primary">Save</button>	
+            <button type="submit" name="about_save" class="btn btn-primary">Save</button>	
           </div>	
         </form>
         
@@ -47,13 +46,14 @@
   </div>
 
 
-<div class="container-fluid">
+
+  <div class="container-fluid">
 	<!--DataTables Example  -->
             <div class="card shadow mb-4">
 			<div class="card-header py-3">	
-			     <h6 class="m-0 font-weight-bold text-primary">Admin Profile
-				   	<button type="button" class="btn btn-primary" data-toggle="modal" data-toggle="modal" data-target="#addadminprofile">
-				   		Add Admin Profile
+			     <h6 class="m-0 font-weight-bold text-primary">About Us &nbsp
+				   	<button type="button" class="btn btn-primary" data-toggle="modal" data-toggle="modal" data-target="#addaboutus">
+				   		Add
 				   	</button>
 			     </h6>
 			</div>
@@ -71,17 +71,17 @@
               <div class="table-responsive">
               	<?php 
                  $connection = mysqli_connect("localhost","root","","admin_clone");
-                 $query = "SELECT * FROM register";
+                 $query = "SELECT * FROM abouts";
                  $query_run = mysqli_query($connection, $query);
               	?>
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                   <thead>
                     <tr>
                       <th>ID</th>
-                      <th>Username</th>
-                      <th>Email</th>
-                      <th>UserType</th>
-                      <th>Password</th>
+                      <th>Title</th>
+                      <th>Sub Title</th>
+                      <th>Description</th>
+                      <th>Links</th>
                       <th>EDIT</th>
                       <th>DELETE</th>
                     </tr>
@@ -89,10 +89,10 @@
                   <tfoot>
                     <tr>
                       <th>ID</th>
-                      <th>Username</th>
-                      <th>Email</th>
-                      <th>UserType</th>
-                      <th>Password</th>
+                      <th>Title</th>
+                      <th>Sub Title</th>
+                      <th>Description</th>
+                      <th>Links</th>
                       <th>EDIT</th>
                       <th>DELETE</th>
                     </tr>
@@ -100,20 +100,20 @@
                   <tbody>
                   	<?php 
                      if (mysqli_num_rows($query_run) > 0) 
-                     {
-                        $count = 1;
-                       	while($row = mysqli_fetch_assoc($query_run))
-                      	{
+                     {  
+                     	$count = 1;
+                     	while($row = mysqli_fetch_assoc($query_run))
+                     	{
                      ?>
                     <tr>
                       <td><?php echo //$row['id'];
                            $count++ ?></td>
-                      <td><?php echo $row['username']; ?></td>
-                      <td><?php echo $row['email']; ?></td>
-                      <td><?php echo $row['password']; ?></td>
-                      <td><?php echo $row['usertype']; ?></td>
+                      <td><?php echo $row['title']; ?></td>
+                      <td><?php echo $row['subtitle']; ?></td>
+                      <td><?php echo $row['description']; ?></td>
+                      <td><?php echo $row['links']; ?></td>
                       <td>
-                      	<form action="register_edit.php" method="POST">
+                      	<form action="aboutus_edit.php" method="POST">
                       	<input type="hidden" name="edit_id" value="<?php echo $row['id']; ?>">
                       	<button type="submit" name="edit_btn" class="btn btn-success">EDIT</button>
                         </form>
@@ -121,7 +121,7 @@
                       <td>
                       	<form action="code.php" method="POST">
                       	<input type="hidden" name="delete_id" value="<?php echo $row['id']; ?>">
-                      	<button type="submit" name="delete_btn" class="btn btn-danger">DELETE</button>
+                      	<button type="submit" name="about_delete_btn" class="btn btn-danger">DELETE</button>
                       </form>
                       </td>
                     </tr>
@@ -133,13 +133,13 @@
                      	echo "No Record Found";
                      }
                   	?>
-
                   </tbody>
                 </table>
               </div>
             </div>
           </div>
  </div>
+
 
 
 <?php   
