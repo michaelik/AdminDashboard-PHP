@@ -37,7 +37,7 @@ include('inc/navbar.php');
 
           	<div class="form-group">
             	<label> Description </label>
-            	<input type="text" name="edit_description" value="<?php echo $row['description']; ?>" class="form-control" placeholder="Enter Description">	
+            	<textarea type="text" name="edit_description" value="<?php echo $row['description']; ?>" class="form-control" placeholder="Enter Description"><?php echo $row['description']; ?></textarea>	
             </div>
 
             <div class="form-group">
