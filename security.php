@@ -1,14 +1,13 @@
 <?php
 session_start();
-include('dbconfig.php');
-
+include('config/dbconfig.php');
+if(!$dbconfig) 
+{
+  header("Location: config/dbconfig.php");
+} 
 if(!$_SESSION['username'])
 {
     header('Location: login.php');
 }
-
-
-
-
 
 ?>

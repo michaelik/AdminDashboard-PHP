@@ -70,7 +70,7 @@
             	?>
               <div class="table-responsive">
               	<?php 
-                 $connection = mysqli_connect("localhost","root","","admin_clone");
+                 // $connection = mysqli_connect("localhost","root","","admin_clone");
                  $query = "SELECT * FROM abouts";
                  $query_run = mysqli_query($connection, $query);
               	?>

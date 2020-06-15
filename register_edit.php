@@ -43,8 +43,13 @@ include('inc/navbar.php');
             <div class="form-group">
             <label> USERTYPE:&nbsp</label>
               <select name="update_usertype" class="form-control">
+              <?php if($row['usertype'] === "admin"){?>
                 <option value="admin"> Admin </option>
                 <option value="user"> User </option>
+                <?php }else{?>
+                <option value="user"> User </option>
+                <option value="admin"> Admin </option>
+                <?php }?>
               </select>
             </div>
 
