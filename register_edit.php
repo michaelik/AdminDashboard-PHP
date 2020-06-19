@@ -14,7 +14,7 @@ include('inc/navbar.php');
 		</div>
         <div class="card-body">
          <?php 
-           $connection = mysqli_connect("localhost","root","","admin_clone") or die(mysqli_error());
+           // $connection = mysqli_connect("localhost","root","","admin_clone") or die(mysqli_error());
            if (isset($_POST['edit_btn'])) 
       			{
       				$id = $_POST['edit_id'];
@@ -59,7 +59,6 @@ include('inc/navbar.php');
           <?php 
 				}
 			}  
-
           ?>
         </div>
         </div>	
