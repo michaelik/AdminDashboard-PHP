@@ -3,6 +3,24 @@ include('security.php');
 /*
   	ADMIN PROFILE: REGISTER/ADD ADMIN DATA----------------------------------
 */
+/*......verify Email and Output Error......*/
+if (isset($_POST['check_submit_btn'])) 
+{
+	$email = $_POST['email_id'];
+    
+	$email_query = "SELECT * FROM register WHERE email='$email'";
+	$email_query_run = mysqli_query($connection, $email_query);
+	if (mysqli_num_rows($email_query_run) > 0) 
+	{
+       echo "Email Already Exists. Please Try Another One.";
+	}
+	else
+	{
+		 
+	}
+
+}
+
 if(isset($_POST['registerbtn']))
 {
   $username = $_POST['username'];
@@ -11,34 +29,44 @@ if(isset($_POST['registerbtn']))
   $cpassword = $_POST['confirmpassword'];
   $usertype = $_POST['usertype'];
 
-if(!empty($username) && !empty($email) && !empty($password) && !empty($cpassword) && !empty($usertype))
- {	
-	  if ($password === $cpassword) 
-	  {
-	  	$query = "INSERT INTO register(username, email, password, usertype) VALUES('$username', '$email', '$password', '$usertype')";
-	  	$query_run = mysqli_query($connection, $query);
-	  	if($query_run)
-	  	{
-	  		$_SESSION['success'] = "Admin Profile Added";
-	  		header('Location: register.php');
-	  	}
-	  	else
-	  	{
-	  		$_SESSION['status'] = "Admin Profile Not Added";
-	  		header('Location: register.php');
-	  	}
-	  }
-	  else
-	  {
-	  	$_SESSION['status'] = "Password and Confirm Password Does Not Match";
-	  	header('Location: register.php');
-	  }
- }
- else
- {
- 		$_SESSION['status'] = "Admin Profile Not Added Please Fill All The Field";
-	  	header('Location: register.php');
- }
+$email_query = "SELECT * FROM register WHERE email='$email'";
+$email_query_run = mysqli_query($connection, $email_query);
+if (mysqli_num_rows($email_query_run) > 0) 
+{
+	  	$_SESSION['success'] = "Email Already Taken. Please Try Another One.";
+		header('Location: register.php');
+}
+else
+{
+	if(!empty($username) && !empty($email) && !empty($password) && !empty($cpassword) && !empty($usertype))
+	 {	
+		  if ($password === $cpassword) 
+		  {
+		  	$query = "INSERT INTO register(username, email, password, usertype) VALUES('$username', '$email', '$password', '$usertype')";
+		  	$query_run = mysqli_query($connection, $query);
+		  	if($query_run)
+		  	{
+		  		$_SESSION['status'] = "Admin Profile Added";
+		  		header('Location: register.php');
+		  	}
+		  	else
+		  	{
+		  		$_SESSION['status'] = "Admin Profile Not Added";
+		  		header('Location: register.php');
+		  	}
+		  }
+		  else
+		  {
+		  	$_SESSION['status'] = "Password and Confirm Password Does Not Match";
+		  	header('Location: register.php');
+		  }
+	 }
+	 else
+	 {
+	 		$_SESSION['status'] = "Admin Profile Not Added Please Fill All The Field";
+		  	header('Location: register.php');
+	 }
+	}
 }
 /*
   	ADMIN PROFILE: EDIT/UPDATE ADMIN DATA----------------------------------
@@ -164,12 +192,17 @@ if(isset($_POST['save_faculty']))
  // $validate_img_extension = $_FILES["faculty_image"]['type']=="image/jpg" ||
  //      $_FILES["faculty_image"]['type']=="image/png" ||
  //      $_FILES["faculty_image"]['type']=="image/jpeg";
-      $img_types = array('image/jpg', 'image/png','image/jpeg');
+      $img_types = array('gif','jpe','jpg', 'png','jpeg');
       $validate_img_extension = in_array($_FILES["faculty_image"]['type'], $img_types);
 
       if ($validate_img_extension) 
       {
-		if(file_exists("upload/".$_FILES["faculty_image"]["name"]))
+			$_SESSION['status'] = "Only PNG, JPG and JPEG Image are allowed";
+	        header('Location: faculty.php');	
+      }
+      else
+      {
+        if(file_exists("upload/".$_FILES["faculty_image"]["name"]))
 		{
 		   $store = $_FILES["faculty_image"]["name"];
 		   $_SESSION['status']= "Image already exists. '.$store.'";
@@ -182,21 +215,23 @@ if(isset($_POST['save_faculty']))
 		 $query_run = mysqli_query($connection, $query);
 			 if($query_run) 
 			 {  
-			 	move_uploaded_file($_FILES["faculty_image"]["tmp_name"], "upload/".$_FILES["faculty_image"]["name"]);
-			 	$_SESSION['success'] = "Faculty Added";
-			 	header('Location: faculty.php');
+			 	$target_file =  "upload/".$_FILES["faculty_image"]["name"];
+			 	 if (move_uploaded_file($_FILES["faculty_image"]["tmp_name"], $target_file)) 
+			 	 {
+			 	 	$_SESSION['success'] = "Faculty Added";
+			 	    header('Location: faculty.php');
+				   // echo "<P>FILE UPLOADED TO: $target_file</P>";
+				 } else {
+			       echo "<P>MOVE UPLOADED FILE FAILED! OF PERHAPS THE SIZE OF IMAGE IS LARGER THAN post_max_size setting in php.ini</P>";
+			       print_r(error_get_last());
+				 } 
 			 }
 			else
 			{
 			 	$_SESSION['success'] = "Faculty Not Added";
 			 	header('Location: faculty.php');
 			}
-		}	
-      }
-      else
-      {
-        $_SESSION['status'] = "Only PNG, JPG and JPEG Image are allowed";
-        header('Location: faculty.php');
+		}
       }
 }
 /*
@@ -314,4 +349,182 @@ if (isset($_POST['faculty_update_btn']))
    		header('Location: faculty.php');
    	}
    }
+/*
+  	DEPARTMENT: REGISTER/ADD DEPARTMENT DATA----------------------------------
+*/
+  if (isset($_POST['dept_save'])) 
+  {
+  	$name = $_POST['name'];
+  	$description = $_POST['description'];
+  	$image = $_FILES["dept_image"]['name'];
+
+      $img_types = array('gif','jpe','jpg', 'png','jpeg');
+      $validate_img_extension = in_array($_FILES["dept_image"]['type'], $img_types);
+ 
+      if($validate_img_extension) 
+      {
+        $_SESSION['status'] = "Only PNG, JPG and JPEG Image are allowed";
+        header('Location: departments.php');	
+      }
+      else
+      {
+		if(file_exists("upload/departments/".$_FILES["dept_image"]["name"]))
+		{
+		   $store = $_FILES["dept_image"]["name"];
+		   $_SESSION['status']= "Image already exists. '.$store.'";
+		   header('Location: departments.php');
+		}
+		else
+		{	
+		 $query = "INSERT INTO dept_category(name, description, image) VALUES('$name', '$description', '$image')";
+		 $query_run = mysqli_query($connection, $query);
+			 if($query_run) 
+			 {  
+			 	$target_file =  "upload/departments/".$_FILES["dept_image"]["name"];
+			 	 if (move_uploaded_file($_FILES["dept_image"]["tmp_name"], $target_file)) 
+			 	 {
+					 	$_SESSION['success'] = "Department Category Added";
+					 	header('Location: departments.php');
+				        // echo "<P>FILE UPLOADED TO: $target_file</P>";
+				 } else {
+				       echo "<P>MOVE UPLOADED FILE FAILED! OF PERHAPS THE </p>
+				             <p>SIZE OF IMAGE IS LARGER THAN post_max_size setting in php.ini</P>
+				             <p>OR</p>
+				             <p>CREATE THE FORM THIS WAY BY SETTING MAX_FILE_SIZE:</p>
+				             <p>form enctype=multipart/form-data method=POST</p>
+				             <p>MAX_FILE_SIZE must precede the file input field</p>
+				             <p>input type=hidden name=MAX_FILE_SIZE value=300000</p>
+				             <p>Name of input element determines name in _FILES array</p>
+				             <p>Send this file: input name=userfile type=file</p>
+				             <p>input type=submit value=Send File</p>
+				             <p>form</p>";
+				       print_r(error_get_last());
+				 } 
+			 }
+			else
+			{
+			 	$_SESSION['status'] = "Department Category Not Added";
+			 	header('Location: departments.php');
+			}
+		}
+      }
+  }
+/*
+  	DEPARTMENT: UPDATE DEPARTMENT DATA----------------------------------
+*/
+  if (isset($_POST['dept_cate_update_btn'])) 
+  {
+  	$updating_id = $_POST['updating_id'];
+  	$edit_name = $_POST['edit_name'];
+  	$edit_description = $_POST['edit_description'];
+  	$edit_dept_cate_image = $_FILES["dept_cate_image"]['name'];
+
+  	$query = "UPDATE dept_category SET name='$edit_name', description='$edit_description', image='$edit_dept_cate_image' WHERE id='$updating_id'";
+    $query_run = mysqli_query($connection, $query);
+
+    if($query_run) 
+    {
+    	move_uploaded_file($_FILES["dept_cate_image"]["tmp_name"], "upload/departments/".$_FILES["dept_cate_image"]['name']);
+    	$_SESSION['success'] = "Dept Category Updated";
+    	header('Location: departments.php');
+    }
+    else
+    {
+        $_SESSION['status'] = "Dept Category Not Updated";
+    	header('Location: departments.php');	
+    }
+  }
+/*
+  	DEPARTMENT: DELETE DEPARTMENT DATA----------------------------------
+*/
+ if (isset($_POST['dept_cate_deletebtn'])) 
+ {
+ 	$delete_id = $_POST['delete_id'];
+
+ 	$query = "DELETE FROM dept_category WHERE id='$delete_id'";
+ 	$query_run = mysqli_query($connection, $query);
+
+ 	if ($query_run) 
+ 	{
+ 		$_SESSION['success'] = "Dept Category is Deleted";
+ 		header("Location: departments.php");
+ 	}
+ 	else
+ 	{
+ 	 	$_SESSION['status'] = "Dept Category is Not Deleted";
+ 		header("Location: departments.php");	
+ 	}
+ }
+/*
+  	DEPARTMENT: REGISTER/ADD DEPARTMENT LIST DATA----------------------------------
+*/
+if (isset($_POST['dept_list_save'])) 
+{
+	$dept_cate_id = $_POST['dept_cate_id'];
+	$name = $_POST['name'];
+	$description = $_POST['description'];
+	$section = $_POST['section'];
+
+	$query = "INSERT INTO dept_category_list(dept_cate_id, name, descrip, section) VALUES ('$dept_cate_id', '$name', '$description', '$section')";
+    $query_run = mysqli_query($connection, $query);
+   
+    if ($query_run) 
+    {
+    	$_SESSION['success'] = "Dept Category-List is Added";
+    	header('Location: departments-list.php');
+    }
+    else
+    {
+    	$_SESSION['status'] = "Dept Category-List is Not Added";
+    	header('Location: departments-list.php');
+    }
+
+}
+/*
+  	DEPARTMENT: UPDATE DEPARTMENT LIST DATA----------------------------------
+*/
+  	if (isset($_POST['dept_catelist_update_btn'])) 
+{
+	$updating_id = $_POST['updating_id'];
+	$dept_cate_id = $_POST['dept_cate_id'];
+	$name = $_POST['name'];
+	$description = $_POST['description'];
+	$section = $_POST['section'];
+
+	$query = "UPDATE dept_category_list SET dept_cate_id='$dept_cate_id', name='$name', descrip='$description', section='$section' WHERE id='$updating_id'";
+    $query_run = mysqli_query($connection, $query);
+
+    if ($query_run) 
+    {
+    	$_SESSION['success'] = "Dept Category-List is Updated";
+    	header('Location: departments-list.php');
+    }
+    else
+    {
+    	$_SESSION['status'] = "Dept Category-List is Not Updated";
+    	header('Location: departments-list.php');
+    }
+
+}
+/*
+  	DEPARTMENT: DELETE DEPARTMENT LIST DATA----------------------------------
+*/
+ if (isset($_POST['dept_catelist_deletebtn'])) 
+ {
+ 	$delete_id = $_POST['delete_id'];
+
+ 	$query = "DELETE FROM dept_category_list WHERE id='$delete_id'";
+ 	$query_run = mysqli_query($connection, $query);
+
+ 	if ($query_run) 
+ 	{
+ 		$_SESSION['success'] = "Dept Category List is Deleted";
+ 		header("Location: departments-list.php");
+ 	}
+ 	else
+ 	{
+ 	 	$_SESSION['status'] = "Dept Category List is Not Deleted";
+ 		header("Location: departments-list.php");	
+ 	}
+ }
 ?>

@@ -22,7 +22,8 @@
           	</div>
           	<div class="form-group">
           	<label> Email </label>
-          	<input type="email" name="email" class="form-control" placeholder="Enter Email">	
+          	<input type="email" name="email" class="form-control checking_email" placeholder="Enter Email">
+             <small class="error_email" style="color: red;"></small>
           	</div>
           	<div class="form-group">
           	<label> Password </label>
@@ -32,16 +33,13 @@
           	<label> Comfirm Password </label>
           	<input type="Password" name="confirmpassword" class="form-control" placeholder="Re-Enter Password">	
           	</div>
-
             <input type="hidden" name="usertype" value="admin">
-
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             <button type="submit" name="registerbtn" class="btn btn-primary">Save</button>	
           </div>	
         </form>
-        
       </div>
     </div>
   </div>
@@ -70,7 +68,6 @@
             	?>
               <div class="table-responsive">
               	<?php 
-                 // $connection = mysqli_connect("localhost","root","","admin_clone");
                  $query = "SELECT * FROM register";
                  $query_run = mysqli_query($connection, $query);
               	?>
@@ -80,8 +77,8 @@
                       <th>ID</th>
                       <th>Username</th>
                       <th>Email</th>
-                      <th>UserType</th>
                       <th>Password</th>
+                      <th>UserType</th>
                       <th>EDIT</th>
                       <th>DELETE</th>
                     </tr>
@@ -91,8 +88,8 @@
                       <th>ID</th>
                       <th>Username</th>
                       <th>Email</th>
-                      <th>UserType</th>
                       <th>Password</th>
+                      <th>UserType</th>
                       <th>EDIT</th>
                       <th>DELETE</th>
                     </tr>
