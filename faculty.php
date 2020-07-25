@@ -60,17 +60,7 @@ include('inc/navbar.php');
             </form>
 			     </h6>
 			</div>
-            <div class="card-body">
-            	<?php
-                 if (isset($_SESSION['success']) && !empty($_SESSION['success'])) {
-                 	echo '<h2 class="text-primary">'.$_SESSION['success'].'</h2>';
-                 	unset($_SESSION['success']);
-                 }
-                 if (isset($_SESSION['status']) && !empty($_SESSION['status'])) {
-                 	echo '<h2 class="text-danger">'.$_SESSION['status'].'</h2>';
-                 	unset($_SESSION['status']);
-                 }
-            	?>            	
+            <div class="card-body">          	
               <div class="table-responsive">
               <?php
                $query = "SELECT * FROM faculty";
@@ -117,7 +107,6 @@ include('inc/navbar.php');
                       <td> <?php echo $row['name'] ?> </td>
                       <td> <?php echo $row['designation'] ?> </td>
                       <td> <?php echo $row['description'] ?> </td>
-                      <!-- <td><?php //echo $row['images'] ?></td> -->
                       <td> <?php echo '<img src="upload/'.$row['images'].'" width="100px;" height="100px;" alt="image">'?> </td>
 
                       <td>
@@ -153,34 +142,4 @@ include('inc/navbar.php');
 
 
 <?php include('inc/scripts.php');?>
-<script type="text/javascript">
-  function toggleCheckbox(box)
-  {
-    var id = $(box).attr("value");
-
-    if($(box).prop("checked") == true)
-    {
-      var visible = 1;
-    }
-    else
-    {
-      var visible = 0;
-    }
-
-    var data = {
-      "search_data": 1,
-      "id": id,
-      "visible": visible
-    };
-
-    $.ajax({
-      type: "post",
-      url: "code.php",
-      data: data,
-      success: function(response){
-        alert("Data Checked");
-      }
-    });
-  }
-</script>
 <?php include('inc/footer.php');?>

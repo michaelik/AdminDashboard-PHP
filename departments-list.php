@@ -84,16 +84,6 @@
 			     </h6>
 			</div>
             <div class="card-body">
-            	<?php
-                 if(isset($_SESSION['success']) && !empty($_SESSION['success'])) {
-                 	echo '<h2 class="text-primary">'.$_SESSION['success'].'</h2>';
-                 	unset($_SESSION['success']);
-                 }
-                 if(isset($_SESSION['status']) && !empty($_SESSION['status'])) {
-                 	echo '<h2 class="text-danger">'.$_SESSION['status'].'</h2>';
-                 	unset($_SESSION['status']);
-                 }
-            	?>
               <div class="table-responsive">
               	<?php
                  $query = "SELECT * FROM dept_category_list";

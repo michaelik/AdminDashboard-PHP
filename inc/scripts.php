@@ -21,3 +21,25 @@
 
   <!-- Custom JS -->
   <script src="js/custom.js"></script>
+
+  <!-- Bootstrap SweetAlert -->
+  <script src="vendor/sweetalert/sweetalert.min.js"></script>
+  <script>
+    <?php
+      if (isset($_SESSION['status']) && !empty($_SESSION['status'])) 
+      {
+    ?>
+      swal({
+        title: "",
+        text: "<?php echo $_SESSION['status']; ?>",
+        type: "<?php echo $_SESSION['status_code']; ?>",
+        showCancelButton: false,
+        confirmButtonClass: "btn-primary",
+        confirmButtonText: "Okay, done!",
+        closeOnConfirm: true
+      });
+    <?php
+        unset($_SESSION['status']);
+       }
+    ?>
+  </script>
