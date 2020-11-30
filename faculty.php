@@ -101,7 +101,7 @@ include('inc/navbar.php');
                		?>
                     <tr>
                       <td>
-                        <input type="checkbox" onClick="toggleCheckbox(this)" value="<?php echo $row['id'] ?>" <?php echo $row['visible'] == 1 ? "Checked" : "" ?>>
+                        <input type="checkbox" value="<?php echo $row['id'] ?>" <?php echo $row['visible'] == 1 ? "Checked" : "" ?>>
                       </td>
                       <td> <?php echo $count++ ?> </td>
                       <td> <?php echo $row['name'] ?> </td>

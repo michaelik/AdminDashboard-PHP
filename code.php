@@ -3,9 +3,9 @@ include('security.php');
 /*......verify Email and Output Error within textbox......*/
 if (isset($_POST['check_submit_btn'])) 
 {
-	$email = $_POST['email_id'];
+	$id = $_POST['email_id'];
     
-	$email_query = "SELECT * FROM register WHERE email='$email'";
+	$email_query = "SELECT * FROM register WHERE email='$id'";
 	$email_query_run = mysqli_query($connection, $email_query);
 	if (mysqli_num_rows($email_query_run) > 0) 
 	{
@@ -353,15 +353,15 @@ if (isset($_POST['faculty_update_btn']))
         $query_check = "SELECT * FROM faculty WHERE visible = '$num'";
         $query_check_run = mysqli_query($connection, $query_check);
         $row= mysqli_fetch_assoc($query_check_run);
-        if($row['visible'] == 1)
+        if($row['visible'] == $num)
         {
 	   	   if($image_path = "upload/".$row['images'])
 	  	    {  
 		  		  // delete exact image from the directory.
 			      unlink($image_path);
 			      // delete exact image from database.
-			      $id = $row['visible'];
-		          $query = "DELETE FROM faculty WHERE visible= '$id'";
+			      $visible = $row['visible'];
+		          $query = "DELETE FROM faculty WHERE visible= '$visible'";
 		  		  $query_run = mysqli_query($connection, $query);
 			  		if ($query_run) 
 			  		{

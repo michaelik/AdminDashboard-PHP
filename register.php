@@ -14,30 +14,30 @@
             <span aria-hidden="true">×</span>
           </button>
         </div>
-        <form action="code.php" method="POST"> 
+        <form id="form" action="code.php" method="POST"> 
           <div class="modal-body">
           	<div class="form-group">
           	<label> Username </label>
-          	<input type="text" name="username" class="form-control" placeholder="Enter Username">	
+          	<input type="text" name="username" id="name" class="form-control" placeholder="Enter Username">	
           	</div>
           	<div class="form-group">
           	<label> Email </label>
-          	<input type="email" name="email" class="form-control checking_email" placeholder="Enter Email">
+          	<input type="email" name="email" id="email" class="form-control checking_email" placeholder="Enter Email">
              <small class="error_email" style="color: red;"></small>
           	</div>
           	<div class="form-group">
           	<label> Password </label>
-          	<input type="Password" name="password" class="form-control" placeholder="Enter Password">	
+          	<input type="Password" name="password" id="password" class="form-control" placeholder="Enter Password">	
           	</div>
           	<div class="form-group">
           	<label> Comfirm Password </label>
-          	<input type="Password" name="confirmpassword" class="form-control" placeholder="Re-Enter Password">	
+          	<input type="Password" name="confirmpassword" id="C_password" class="form-control" placeholder="Re-Enter Password">	
           	</div>
             <input type="hidden" name="usertype" value="admin">
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="submit" name="registerbtn" class="btn btn-primary">Save</button>	
+            <button type="submit" name="registerbtn" id="submit" class="btn btn-primary">Save</button>	
           </div>	
         </form>
       </div>
@@ -50,7 +50,7 @@
             <div class="card shadow mb-4">
 			<div class="card-header py-3">	
 			     <h6 class="m-0 font-weight-bold text-primary">Admin Profile
-				   	<button type="button" class="btn btn-primary" data-toggle="modal" data-toggle="modal" data-target="#addadminprofile">
+				   	<button type="button" class="btn btn-primary m-show" data-toggle="modal" data-toggle="modal" data-target="#addadminprofile">
 				   		Add Admin Profile
 				   	</button>
 			     </h6>
